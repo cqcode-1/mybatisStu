@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.john.mb.dao.UserDao">
+
+    <!--插入数据到数据库中，如果不传主键id， 数据库中id为自增长，
+        如果插入数据后需要接收数据库生成的这个id值，需要使用：
+        useGenerateKey：表示接收生成的主键值（id值）
+        keyProperty：表示数据库中生成的值，返回到那个参数字段。
+    -->
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        /*无论是否开启了驼峰命名转换，这里必须使用表中的列名user_name*/
+        insert into user(user_name) values(#{userName})
+    </insert>
+
+    <select id="queryAll" resultType="com.john.mb.bean.User">
+        select * from user
+    </select>
+</mapper>

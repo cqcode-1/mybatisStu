@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.john.mb.dao.EmpDao">
+
+
+    <!--
+        id：
+        resultType：返回的结果单一对象，一般用的不多，因为关联查询会自定义结果集
+            返回的结果是一个结果集合时，如list，可以直接使用此参数，值为集合中的类型，不需要使用resultMap
+        resultMap: 和resultType二选一， 在返回的结果对象中还包含另一个对象的引用的时，需要自定义结果集
+
+        resultType：很少使用。
+        resultOrdered： 一般用不到
+        resultSet：少使用。
+        #{}和${}传值的区别#{}是预编译处理，${}是字符串替换。
+            mybatis在处理#{}时，会将sql中的#{}替换为?号，调用PreparedStatement的set方法来赋值；
+                select * from Emp where empno = ?
+            mybatis在处理${}时，就是把${}替换成变量的值。使用 #{} 可以有效的防止SQL注入，提高系统安全性
+                select * from Emp where empno = 1
+                ${}也有使用场景，比如表名和列名需要传入的时候
+                      这里需要使用arg0和arg1按顺序接收参数
+                      select * from ${arg0} where empno = #{arg1}
+
+
+        方法中的参数值的获取
+        1.单一参数时
+            1.1.基本数据类型：select * from Emp where empno = #{empno} 这里的empno可以写成任意字符串都可以
+            1.2.引用类型时需要与对象的属性名对应才可以
+        2. 多个参数时，通过#{}来获取时需要使用arg0，arg1... 或者param1，param2...来顺序获取,
+            因为多个参数mybatis中会封装成map结构中。这种方式不友好，如果需要使用时，使用其他方式
+
+            如 select * from emp where sal > #{param1} and comm > #{param2}
+            或者 select * from emp where sal > #{arg0} and comm > #{arg1}
+            上面这种方式不友好，可以使用方法中的名称如
+                 select * from emp where sal > #{sss} and comm > #{ccc}
+                 需要在接口方法中  List<Emp> selectMS(@Param("sss") int s, @Param("ccc") int c);
+
+        3. 自定义map
+            在接口中定义一个方法接收map参数
+               List<Emp> selectByMap(Map<String, Object> emp);
+            在使用时传入参数名
+                try(final SqlSession sqlSession = sqlSessionFactory.openSession()){
+                     final EmpDao mapper = sqlSession.getMapper(EmpDao.class);
+                     final Hashtable<String, Object> map = new Hashtable<>();
+                     map.put("empno", 2);
+                     map.put("sal", 300);
+                     final List<Emp> result = mapper.selectByMap(map);
+                     System.out.println(result);
+                }
+                其中"empno" 和"sal" 可以改为任意字符串，在mapper中的映射中取值时取对应字符串即可
+                 <select id="selectByMap" resultType="com.john.mb.bean.Emp">
+                    select * from emp where empno=#{empno} and sal> #{sal}
+                </select>
+
+    -->
+<!--    <select id="selectById" resultType="com.john.mb.bean.Emp">-->
+<!--        select * from Emp where empno = #{empno}-->
+<!--    </select>-->
+    <select id="selectByIdAndSal" resultType="com.john.mb.bean.Emp">
+        select * from emp where empno=#{empno} and sal > #{sal}
+    </select>
+    <select id="selectById" resultType="com.john.mb.bean.Emp">
+        select * from ${arg0} where empno = #{arg1}
+       /* select * from ${param1} where empno = #{param2}*/
+    </select>
+    <select id="selectMS" resultType="com.john.mb.bean.Emp">
+        select * from emp where sal > #{sss} and comm > #{ccc}
+    </select>
+    <select id="selectByMap" resultType="com.john.mb.bean.Emp">
+        select * from emp where empno=#{e} and sal> #{s}
+    </select>
+    <select id="selectAll" resultType="com.john.mb.bean.Emp">
+        select * from Emp;
+    </select>
+
+    <!--查询单个值将返回值设为map时
+        直接定义接口方法返回值为Map<Object, Object>
+        在mapper中的方法上设置resultType="map"
+        然后使用时直接接收Map类型返回值即可。
+        -->
+    <select id="selectById2" resultType="map">
+        select * from emp where empno = #{empno}
+    </select>
+
+    <select id="selectAll2" resultType="map">
+        select * from emp
+    </select>
+    <!--
+        insert，delete,update 表示增删改sql语句
+        id：需要与接口中的方法名称一一对应
+        parameterType: 参数类的完全限定名，可选参数，因为默认会用TypeHandler推断出。
+        flushCache：true只要语句被调用都会导致本地缓存和二级缓存被清空， insert，update，delete默认为true
+        timeout：等待多长时间抛出异常
+        statementType: 会让MyBatis使用 statement,prepareStatement,CallableStatement, 默认值Prepare
+            STATEMENT: 最基本的jdbc操作，用来表示一个sql语句，不能放置sql注入
+            PREPARE:采用预编译的方式，防止sql注入，设置参数的时候需要改对象PrepareStatement来进行设置
+            CALLABLE:调用存储过程，现在已经很少用到
+        useGeneratedKeys
+            插入数据到数据库中，如果不传主键id， id自增长，如果需要接收这个id值，需要使用：
+            useGenerateKeys：表示接收生成的主键值（id值）
+            keyProperty：表示数据库中生成的值，返回到那个参数字段
+        keyColumn 设置生成键值在表中的列名
+        databaseId
+    -->
+    <insert id="save" >
+        /*values 中的可以自动收对象中的属性， 比如save方法的参数是一个对象，对象中有empno和ename属性*/
+        insert into Emp(empno, ename) values (#{empno}, #{ename})
+    </insert>
+
+    <delete id="delete" >
+        delete from Emp where empno=#{empno};
+    </delete>
+
+    <update id="update" >
+        update Emp set sal=#{sal} where empno = #{empno};
+    </update>
+</mapper>

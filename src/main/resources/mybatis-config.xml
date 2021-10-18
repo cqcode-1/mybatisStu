@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="db.properties"/>
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+<!--    <typeAliases>
+        <typeAlias type="com.john.mb.bean.Emp" alias="emp"/>
+        <typeAlias type="com.john.mb.dao.EmpDao" alias="empdao"/>
+        <package name="com.john.mb.dao"/>
+    </typeAliases>-->
+    <!--类型处理器，mybatis中内置了很多类型处理器，一般不需要自定义。-->
+  <!--  <typeHandlers>
+        <typeHandler handler="" javaType=""/>
+        <package name=""/>
+    </typeHandlers>-->
+    <!--自定义对象工厂，完成从结果集到java对象的转换， 一般不需要自定义-->
+  <!--  <objectFactory type=""></objectFactory>-->
+    <!--在执行过程中进行拦截-->
+<!--    <plugins>
+        <plugin interceptor="">
+            <property name="" value=""/>
+        </plugin>
+    </plugins>-->
+
+    <!--environments 节点下可配置多个环境配置 default 表示配置默认环境-->
+    <environments default="development">
+        <environment id="development">
+            <!--具体的事务管理器 JDBC|MANAGED
+                JDBC：jdbc原声的事务控制
+                MANAGED:什么也不做-->
+            <transactionManager type="JDBC"/>
+            <!--三种内建的数据源类型： UNPOOLED|POOLED|JNDI
+                UNPOOLED: 每次都打开和关闭连接
+                POOLED: 使用数据库连接池
+                JNDI:基本不用-->
+            <dataSource type="POOLED">
+                <!--连接数据需要的参数，还有其他查看官方文档。-->
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+        <!--配置其他环境-->
+        <environment id="product">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED"/>
+        </environment>
+    </environments>
+    <!--提供了不同数据库厂商的标识，在mapper.xml中可以通过标识来执行对应sql语句 -->
+    <databaseIdProvider type="DB_VENDOR">
+        <property name="SQL Server" value="sqlserver"/>
+        <property name="DB2" value="db2"/>
+        <property name="Oracle" value="oracle" />
+    </databaseIdProvider>
+
+    <!--引入mapper文件 在程序启动时加载，注意每个mapper文件都需要在此引入
+        resource：当前项目中的资源文件。
+        class：类的完全限定名引入,使用注解的方式,如果需要在class中使用xml则需要额外配置
+        url：本地磁盘或者网络路径引入
+-->
+    <mappers>
+        <mapper resource="EmpDao.xml"/>
+        <mapper resource="UserDao.xml"/>
+<!--        <mapper class="com.john.mb.dao.EmpDao"/>-->
+<!--        <mapper class="com.john.mb.dao.UserDao"/>-->
+<!--        <package name="com.john.mb.dao"/>-->
+    </mappers>
+</configuration>
