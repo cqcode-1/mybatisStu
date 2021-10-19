@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.john.mb.dao.DeptDao">
+    <!--一对多 关联查询-->
+    <resultMap id="dept" type="com.john.mb.bean.Dept">
+        <id column="deptno" property="deptno"/>
+        <result column="deptname" property="deptname"/>
+        <result column="dloc" property="dloc"/>
+        <collection property="emps" ofType="com.john.mb.bean.Emp">
+            <!--里面的参数必须指定，否则emps查出来为空，
+                没有指定的列名也会为null-->
+            <id column="id" property="id"/>
+            <result column="ename" property="ename"/>
+            <result column="job" property="job"/>
+        </collection>
+    </resultMap>
+    <select id="selectById" resultMap="dept">
+        select * from dept left join emp on dept.deptno = emp.deptno where dept.deptno = #{deptno}
+    </select>
+
+    <!--
+        可以使用分布查询
+        再resultMap中的collection 中指定emps使用分步查询，并指定已经定义的查询方法 和列名，即可完成结果查询
+        selectByDeptnoStep是在其他mapper中可以单独运行的查询方法。
+        <collection property="emps" select="com.john.mb.dao.EmpDao2.selectByDeptnoStep" column="deptno">
+    -->
+    <resultMap id="dept2" type="com.john.mb.bean.Dept">
+        <id column="deptno" property="deptno"/>
+        <result column="deptname" property="deptname"/>
+        <result column="dloc" property="dloc"/>
+        <collection property="emps" select="com.john.mb.dao.EmpDao2.selectByDeptnoStep" column="deptno" fetchType="lazy">
+        </collection>
+    </resultMap>
+
+    <select id="selectById2" resultMap="dept2">
+        select * from dept where dept.deptno = #{deptno}
+    </select>
+
+    <!--可以分步查询-->
+
+</mapper>

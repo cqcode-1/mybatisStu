@@ -1,8 +1,10 @@
 package com.john.mb.bean;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
-public class Emp {
+public class Emp implements Serializable {
    private Integer empno;
    private String ename;
    private String job;
@@ -10,7 +12,7 @@ public class Emp {
    private Date hiredate;
    private double sal;
    private double comm;
-   private String deptno;
+   private Dept dept;
 
    public Integer getEmpno() {
       return empno;
@@ -66,14 +68,15 @@ public class Emp {
 
    public void setComm(double comm) {
       this.comm = comm;
+
    }
 
-   public String getDeptno() {
-      return deptno;
+   public Dept getDept() {
+      return dept;
    }
 
-   public void setDeptno(String deptno) {
-      this.deptno = deptno;
+   public void setDept(Dept dept) {
+      this.dept = dept;
    }
 
    @Override
@@ -86,7 +89,7 @@ public class Emp {
               ", hiredate=" + hiredate +
               ", sal=" + sal +
               ", comm=" + comm +
-              ", deptno='" + deptno + '\'' +
+              ", dept=" + dept +
               '}';
    }
 }

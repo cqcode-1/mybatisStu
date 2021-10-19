@@ -1,6 +1,6 @@
 package com.john.mb.bean;
 
-class Dog {
+public class Dog {
 
    Integer id;
    String name;
@@ -37,5 +37,15 @@ class Dog {
 
    public void setGender(String gender) {
       this.gender = gender;
+   }
+
+   @Override
+   public String toString() {
+      return "Dog{" +
+              "id=" + id +
+              ", name='" + name + '\'' +
+              ", age=" + age +
+              ", gender='" + gender + '\'' +
+              '}';
    }
 }

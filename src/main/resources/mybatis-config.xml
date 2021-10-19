@@ -6,6 +6,10 @@
     <properties resource="db.properties"/>
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--开启后所有方法都不会再懒加载，配置的懒加载属性无效。-->
+        <setting name="aggressiveLazyLoading" value="true"/>
+<!--        <setting name="cacheEnabled" value="true"/>-->
     </settings>
 <!--    <typeAliases>
         <typeAlias type="com.john.mb.bean.Emp" alias="emp"/>
@@ -66,6 +70,9 @@
     <mappers>
         <mapper resource="EmpDao.xml"/>
         <mapper resource="UserDao.xml"/>
+        <mapper resource="DogDao.xml"/>
+        <mapper resource="EmpDao2.xml"/>
+        <mapper resource="DeptDao.xml"/>
 <!--        <mapper class="com.john.mb.dao.EmpDao"/>-->
 <!--        <mapper class="com.john.mb.dao.UserDao"/>-->
 <!--        <package name="com.john.mb.dao"/>-->
