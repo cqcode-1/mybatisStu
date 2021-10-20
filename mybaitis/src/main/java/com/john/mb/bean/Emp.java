@@ -2,7 +2,6 @@ package com.john.mb.bean;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.UUID;
 
 public class Emp implements Serializable {
    private Integer empno;

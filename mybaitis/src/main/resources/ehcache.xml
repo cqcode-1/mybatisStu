@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         updateCheck="true" monitoring="autodetect" dynamicConfig="true">
+    <diskStore path="D://ehcache"/>
+    <defaultCache
+        maxEntriesLocalDisk="100000"
+        maxEntriesLocalHeap="0"
+        eternal="false"
+        overflowToDisk="true"
+        diskExpiryThreadIntervalSeconds="1"
+        timeToIdleSeconds="120"
+        timeToLiveSeconds="120"
+        memoryStoreEvictionPolicy="LRU">
+    </defaultCache>
+</ehcache>
+<!--
+    diskExpiryThreadIntervalSeconds:
+        The number of seconds between runs of the disk expiry thread. The default value
+        is 120 seconds.
+
+    eternal = "false"时timeToIdleSeconds timeToLiveSeconds 才有效
+       timeToLiveSeconds 缓存创建之后的有效期， 超过时间缓存被清除
+       时timeToIdleSeconds 缓存创建之后最近一次访问后的有效时间， 超过时间缓存会被清除-->

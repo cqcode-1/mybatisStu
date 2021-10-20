@@ -3,8 +3,10 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.john.mb.dao.EmpDao2">
-    <cache />
+<!--    <cache />-->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
     <!--方式一-->
+
 <!--    <resultMap id="emp" type="com.john.mb.bean.Emp">
         <id column="id" property="id"/>
         <result column="ename" property="ename"/>
@@ -39,10 +41,10 @@
 <!--    <select id="select" resultType="com.john.mb.bean.Emp">-->
 <!--        select * from emp-->
 <!--        <where>-->
-<!--            <if test="empno != null">-->
+<!--            <if com.test="empno != null">-->
 <!--                empno = #{empno}-->
 <!--            </if>-->
-<!--            <if test="ename != null">-->
+<!--            <if com.test="ename != null">-->
 <!--                and ename = #{ename}-->
 <!--            </if>-->
 
@@ -106,6 +108,12 @@
             2. 需要在mapper文件中使用 <cache/> 整个文件生效
                 cache中有对应参数
 
+        二级缓存是事务性的，当sqlSession完成并提交或者回滚，但是没有执行flushCache=true的 insert/update/delete操作，缓存都会更新。
+
+        自定义缓存。
+
+        二级缓存和一级缓存不可能同时存在， 因为sqlSession关闭之后才会生成二级缓存。
+        缓存是先查询二级缓存，然后再去查看一级缓存
         -->
 
     <update id="update">

@@ -47,10 +47,10 @@ public class EmpTest2 {
       System.out.println(mapper.select(emp));
 
 //      mapper.update(3);
-//      final Emp emp1 = new Emp();
-//      emp1.setEmpno(2);
-//      emp1.setEname("lisi");
-//      System.out.println(mapper.select(emp1));
+      final Emp emp1 = new Emp();
+      emp1.setEmpno(2);
+      emp1.setEname("lisi");
+      System.out.println(mapper.select(emp1));
       sqlSession.close();
 
       final SqlSession sqlSession2 = mSessionFactory.openSession();

@@ -3,7 +3,6 @@ package com.john.mb.dao;
 import com.john.mb.bean.User;
 
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.plugin.Interceptor;
 
 import java.util.List;
 
