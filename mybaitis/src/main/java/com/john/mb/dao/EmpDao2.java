@@ -9,7 +9,9 @@ import java.util.List;
 public interface EmpDao2 {
   Emp selectByDeptno(Integer e);
   Emp selectByDeptnoStep(Integer e);
-  Emp select(Emp emp);
+  List<Emp> select(Emp emp);
+  List<Emp> selectAll();
+
   List<Emp> selectIn(@Param("deptnos") List<Integer> deptnos);
 
   Integer update(Integer empno);

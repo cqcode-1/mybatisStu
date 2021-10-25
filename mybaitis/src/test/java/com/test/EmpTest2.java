@@ -71,4 +71,23 @@ public class EmpTest2 {
       sqlSession.close();
    }
 
+   @Test
+   public void test05(){
+      final SqlSession sqlSession = mSessionFactory.openSession();
+      final EmpDao2 mapper = sqlSession.getMapper(EmpDao2.class);
+      final Emp emp = new Emp();
+      emp.setEmpno(1);
+      emp.setEname("lisi");
+      emp.setSal(1000);
+      System.out.println(mapper.select(emp));
+      sqlSession.close();
+   }
+   @Test
+   public void test06(){
+      final SqlSession sqlSession = mSessionFactory.openSession();
+      final EmpDao2 mapper = sqlSession.getMapper(EmpDao2.class);
+      final Emp emp = new Emp();
+      System.out.println(mapper.selectAll());
+      sqlSession.close();
+   }
 }

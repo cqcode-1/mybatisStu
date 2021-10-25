@@ -57,7 +57,7 @@
     suffixOverrides 去除整体语句中前面多余的字符
     suffixOverrides 去除整体语句中后面多余的字符
     -->
-    <select id="select" resultType="com.john.mb.bean.Emp">
+<!--    <select id="select" resultType="com.john.mb.bean.Emp">
         select * from emp
             <trim prefix="where" prefixOverrides="and |or" suffixOverrides="and |or">
                 <if test="empno != null">
@@ -68,7 +68,7 @@
                 </if>
             </trim>
 
-    </select>
+    </select>-->
 
     <!--
         foreach 表示遍历输入的参数
@@ -79,9 +79,16 @@
         item 表示遍历中的每一个元素值类型（对应的列名）
         index 表示索引，随便写，不知道有什么用。
     -->
-    <select id="selectIn" resultType="com.john.mb.bean.Emp">
+<!--    <select id="selectIn" resultType="com.john.mb.bean.Emp">-->
+<!--        select * from emp where deptno in-->
+<!--        <foreach collection="deptnos" open="(" close=")" separator="," item="deptno" index="1">-->
+<!--            #{deptno}-->
+<!--        </foreach>-->
+<!--    </select>-->
+
+    <select id="selectIn" resultMap="emp">
         select * from emp where deptno in
-        <foreach collection="deptnos" open="(" close=")" separator="," item="deptno" index="1">
+        <foreach collection="deptnos" open="(" close=")" separator="," item="deptno">
             #{deptno}
         </foreach>
     </select>
@@ -121,4 +128,11 @@
         update emp set ename= "sss" where empno= #{empno}
     </update>
 
+
+    <select id="selectAll" resultMap="emp">
+        select * from emp left join dept on emp.deptno = dept.deptno
+<!--            <if test="empno==1">-->
+<!--                where sal > #{emp.sal}-->
+<!--            </if>-->
+    </select>
 </mapper>

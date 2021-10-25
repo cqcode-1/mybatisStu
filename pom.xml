@@ -11,6 +11,7 @@
     <modules>
         <module>generator</module>
         <module>mybaitis</module>
+        <module>mybatis-plusDemo</module>
     </modules>
 
     <properties>
