@@ -12,6 +12,7 @@
         <module>generator</module>
         <module>mybaitis</module>
         <module>mybatis-plusDemo</module>
+        <module>mybatis-plus-generator</module>
     </modules>
 
     <properties>

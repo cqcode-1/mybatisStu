@@ -28,12 +28,54 @@
         <property name="dataSource" ref="dataSource"/>
 <!--        <property name="mapperLocations" value="classpath:com/john/plus/dao/*.xml"/>-->
         <!--这里其实不需要此配置。-->
-        <property name="configLocation" value="mybatis-config.xml"/>
-    </bean>
+<!--        <property name="configLocation" value="mybatis-config.xml"/>-->
+        <property name="plugins">
+            <array>
+                <!--分页插件-->
+                <bean class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor"/>
+                <!--乐观锁-->
+                <bean class="com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor"/>
+                <!--禁止全表更新和删除操作-->
+                <bean class="com.baomidou.mybatisplus.extension.plugins.SqlExplainInterceptor">
+                    <property name="sqlParserList">
+                        <list>
+                            <bean class="com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="com.baomidou.mybatisplus.extension.plugins.IllegalSQLInterceptor">
 
+                </bean>
+            </array>
+        </property>
+        <!--这个和mybatis-config.xml不能同时存在。-->
+        <property name="configuration" ref="configuration"/>
+        <property name="globalConfig" ref="globalConfig"/>
+    </bean>
+    <bean id="configuration" class="com.baomidou.mybatisplus.core.MybatisConfiguration">
+        <property name="mapUnderscoreToCamelCase" value="false"/>
+        <!--log 实现-->
+<!--        <property name="logImpl" value="org.apache.ibatis.logging.log4j.Log4jImpl"/>-->
+    </bean>
+    <bean id="globalConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig">
+        <property name="banner" value="false"/>
+        <property name="dbConfig" ref="dbConfig"/>
+        <property name="metaObjectHandler" ref="metaObjectHandler"/>
+    </bean>
+    <!--元数据填充-->
+    <bean id="metaObjectHandler" class="com.john.plus.handler.MyMetaObjectHandler"/>
+
+    <!--dbConfig 是globalConfig的内部类-->
+    <bean id="dbConfig" class="com.baomidou.mybatisplus.core.config.GlobalConfig$DbConfig">
+        <!--如表名tab_emp 配置了前缀，则映射的实体类可以未Emp ，省去了@tabName(tab_emp)注解-->
+        <property name="tablePrefix" value="tab_"/>
+    </bean>
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.john.plus.dao"/>
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryBean"/>
+
+        <!--此配置作用？-->
+<!--        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryBean"/>-->
     </bean>
+
 
 </beans>

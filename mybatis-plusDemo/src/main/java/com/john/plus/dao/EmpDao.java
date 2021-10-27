@@ -5,4 +5,5 @@ import com.john.plus.bean.Emp;
 
 public interface EmpDao extends BaseMapper<Emp> {
 
+    Emp query(Integer empno);
 }
